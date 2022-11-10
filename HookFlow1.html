@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@17/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <div id="root"></div>
+    <script type="text/babel">
+      const rootElement = document.getElementById("root");
+
+      const App = () => {
+        console.log("App render start");
+        const [show, setShow] = React.useState(() => {
+          console.log("App useState");
+          return false;
+        });
+
+        //배열이 없으면 렌더링 될때마다 실행
+        React.useEffect(() => {
+          console.log("App useEffect, no deps");
+        });
+        //빈 배열이면 처음 렌더링 될때만 실행
+        React.useEffect(() => {
+          console.log("App useEffect, empty deps");
+        }, []);
+        // 배열에 값이 있으면 배열안의 값이 바뀔때만 실행
+        React.useEffect(() => {
+          console.log("App useEffect, [show]");
+        }, [show]);
+
+        function handleClick() {
+          setShow((prev) => !prev); //이전값이 true면 false로 설정
+        }
+        return (
+          <>
+            <button onClick={handleClick}>Search</button>
+            {show ? (
+              <>
+                <input />
+                <p></p>
+              </>
+            ) : null}
+          </>
+        );
+      };
+      ReactDOM.render(<App />, rootElement);
+      console.log("App render end");
+    </script>
+  </body>
+</html>
